@@ -1,0 +1,131 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{texments}
+\usepackage[slovene]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{textcase}
+\usepackage{verbatim}
+
+\title{Napredna uporaba C++}
+\author{Tadej Petrič}
+\date{\today}
+
+\usetheme{Berlin}
+
+\begin{document}
+\usestyle{default}
+\begin{frame}[plain]
+  \titlepage{}
+\end{frame}
+
+\section{Zgodovina}
+\begin{frame}[plain]{Zgodovina}
+  \begin{itemize}
+\item<1-> Kako se C++ razlikuje od C?
+\item<2-> C with classes že leta 1980
+\item<2-> Preobloženi operatorji že leta 1983
+\item<2-> Templates za generične tipe leta 1990
+\item<3-> To je bilo že 30 let nazaj!
+\item<3-> C++ je sodoben in aktiven jezik. Kaj ima torej novega?
+\item<3-> C++ je znan kot ``bloated'' jezik, torej mora imeti še veliko razlik od minimalističnega jezika C
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain]
+  \frametitle{Kazalo}
+  \tableofcontents
+\end{frame}
+
+\section{Podatkovne strukture}
+\begin{frame}{Array (C++11)}
+  V C smo pisali
+  \pygment{c}{int a[10];}
+  V C++ je priporočljivo uporabljati
+  \pygment{cpp}{std::array<int, 10> a;}
+  iz knjižnice \texttt{array}.
+  Uporablja se skoraj enako, le da se ne pretvori v kazalec implicitno.
+\end{frame}
+
+\begin{frame}{List}
+  Namesto zamudnega postopka programiranja svojih kazalčnih seznamov lahko uporabimo standardnega.
+  \includecode{list.cpp}
+\end{frame}
+
+\begin{frame}{Vector}
+  Verjetno najbolj uporabljena struktura v C++. Array spremenljive velikosti.
+  \includecode{vector_intro.cpp}
+  Prednosti in slabosti v primerjavi z \texttt{list} in \texttt{array}?
+\end{frame}
+
+\begin{frame}{Vse}
+  \url{https://en.cppreference.com/w/cpp/container}
+  \begin{itemize}
+  \item \texttt{array}, \texttt{vector}, \texttt{list}, \texttt{forward\_list} (C++11), \texttt{deque}
+  \item \texttt{set}, \texttt{map}, \texttt{multiset}, \texttt{multimap}
+  \item Od C++11 še unordered različice (npr. \texttt{unordered\_set})
+  \item \texttt{stack}, \texttt{queue}, \texttt{priority\_queue}
+  \item \texttt{span} (C++20)
+  \end{itemize}
+\end{frame}
+
+\section{Algoritmi}
+\begin{frame}{Algorithm}
+  Veliko algoritmov (čez 100), za vse poglejte \url{https://en.cppreference.com/w/cpp/algorithm} ali \url{https://www.youtube.com/watch?v=2olsGf6JIkU}
+  \includecode{stl_pres.cpp}
+\end{frame}
+
+\section{auto}
+\begin{frame}{auto (C++11)}
+  Namesto eksplicitnega podajanja tipov jih lahko prevajalnik izbere sam. Zelo koristno za težje tipe.
+  \includecode{auto.cpp}
+\end{frame}
+
+\section{Iteratorji \& ranges}
+\begin{frame}{Iteratorji}
+  \includecode{iterators.cpp}
+\end{frame}
+
+\begin{frame}{range for-loop (C++11)}
+  Pogosto želimo samo iterirati čez celotno strukturo.
+  \includecode{ranges.cpp}
+\end{frame}
+
+\section{Lambda funkcije}
+\begin{frame}{Lambda(C++11)}
+  Lambda funkcije so anonimne funkcije. Ponavadi so kratke.
+  \includecode{lambdapres.cpp}
+\end{frame}
+
+\begin{frame}{funkcije višjega reda}
+  Funkcija, ki kot argument sprejme funkcijo se imenuje funkcija višjega reda.
+  \includecode{higher_ord.cpp}
+\end{frame}
+
+\begin{frame}{Naloga}
+  Naredi funkcije, ki v seznamu števil preštejejo:
+  \begin{itemize}
+  \item Koliko elementov enakih nekemu številu
+  \item Koliko elementov manjših od nekega števila
+  \item Koliko elementov deljivih z nekim številom
+  \end{itemize}
+\end{frame}
+
+\section{MORE TEMPLATES}
+\begin{frame}{Template programming language}
+  C++ templati so turing complete. To pomeni, da so dovolj močni, da izvedejo vsak algoritem. Ker templati obstajajo preden izvedemo program (torej obstajajo le za prevajalnik) to pomeni, da lahko vsak algoritem izvedemo med compile-time (ko pa zaženemo program, le uporabljamo kar je prevajalnik izračunal).
+
+  Kot primer bomo napisali program, ki izračuna fakulteto \(n! = n(n-1)(n-2)\cdots3\cdot2\cdot1\)
+\end{frame}
+\begin{frame}{constexpr}
+  Programiranje s templati je grdo.\pause{}
+  
+  Na srečo od C++11 (ter veliko bolj enostavno v C++14, 17 in 20) to ni več potrebno. Prejšni program lahko ponovno napišemo s pomočjo \texttt{constexpr} funkcij.
+\end{frame}
+
+\begin{frame}{variadic templates}
+  Templati ponavadi dovolijo, da neko funkcijo pokličemo z različnimi tipi argumentov.
+
+  Od C++11 lahko s templati predstavimo tudi funkcije z različnim številom argumentov.
+  \includecode{variadic_pres.cpp}
+\end{frame}
+\end{document}

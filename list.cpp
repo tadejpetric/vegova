@@ -23,6 +23,25 @@ void write(llist<T>& list, T head, Args...  tail) {
 template <typename T>
 void write(llist<T>&) {}
 
+// forwarding and constexpr if
+template <class T, class Head, class... Tail>
+void write_forward(llist<T>& list, Head&& arg, Tail&&... args) {
+    list.value = std::forward<Head>(arg);
+    if constexpr (sizeof...(Tail) != 0)
+        write(*list.next, std::forward<Tail>(args)...);
+}
+
+// folded lambda with capture
+template <class T, class... Args>
+void write_fold(llist<T>& list, Args&&... args) {
+    auto f = [it = &list](auto&& arg) mutable {
+        it->value = std::forward<decltype(arg)>(arg);
+        it = it->next.get();
+    };
+    (f(args), ...);
+}
+
+
 template <typename T>
 void print(llist<T>& list) {
     std::cout << list.contents << " ";
@@ -31,27 +50,27 @@ void print(llist<T>& list) {
     }
 }
 
+// we don't need any deletes!
 template <typename T>
 void delete_element(llist<T>& list, int n) {
-    if (not n) {
+    if (n == 0) {
         list = std::move(*list.next_el);
         return;
     }
     --n;
     auto temp = &list;
     while (n) {
-        if (temp->next_el) {
-            temp = temp->next_el.get();
-        }
+        temp = temp->next_el.get();
         --n;
     }
-    temp->next_el = std::move(temp->next_el->next_el);
+    temp->next_el = std::move(temp->next_el->next_el); // will segfault if beyond last.
 }
 
 int main() {
     llist<int> test(8);
-    write(test, 1, 2, 3, 4, 5, 6, 7, 8);
+    write(test, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     int temp = 1;
+    print(test);
     while(temp) {
         std::cin >> temp;
         delete_element(test, temp);
