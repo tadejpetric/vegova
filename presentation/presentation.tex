@@ -12,7 +12,10 @@
 
 \usetheme{Berlin}
 
+\setbeamertemplate{headline}{}
+
 \begin{document}
+\beamertemplatenavigationsymbolsempty
 \usestyle{default}
 \begin{frame}[plain]
   \titlepage{}
@@ -112,7 +115,7 @@
 
 \section{MORE TEMPLATES}
 \begin{frame}{Template programming language}
-  C++ templati so turing complete. To pomeni, da so dovolj močni, da izvedejo vsak algoritem. Ker templati obstajajo preden izvedemo program (torej obstajajo le za prevajalnik) to pomeni, da lahko vsak algoritem izvedemo med compile-time (ko pa zaženemo program, le uporabljamo kar je prevajalnik izračunal).
+  C++ templati so Turing complete. To pomeni, da so dovolj močni, da izvedejo vsak algoritem. Ker templati obstajajo preden izvedemo program (torej obstajajo le za prevajalnik) to pomeni, da lahko vsak algoritem izvedemo med compile-time (ko pa zaženemo program, le uporabljamo kar je prevajalnik izračunal).
 
   Kot primer bomo napisali program, ki izračuna fakulteto \(n! = n(n-1)(n-2)\cdots3\cdot2\cdot1\)
 \end{frame}
@@ -127,5 +130,49 @@
 
   Od C++11 lahko s templati predstavimo tudi funkcije z različnim številom argumentov.
   \includecode{variadic_pres.cpp}
+\end{frame}
+
+\begin{frame}{Naloga}
+  Napiši funkcijo, ki sprejme poljubno število argumentov ter vsakega izpiše (med njimi pa presledki).
+\end{frame}
+
+\begin{frame}{fold (C++17)}
+  Z uporabo fold expressionov lahko neko binarno operacijo izvedemo na vseh argumentih funkcije. Tako se lahko v mnogih primerih izognemo rekurzivnim klicom funkcij.
+\end{frame}
+\begin{frame}{fold (C++17) cont.}
+  \includecode{fold_pres.cpp}
+  Naloga: Napiši funkcijo \texttt{any}, ki sprejme poljubno število boolov in vrne ali je kateri koli od njih \texttt{true}
+\end{frame}
+
+\section{RAII}
+\begin{frame}{RAII}
+  RAII pomeni Resource Acquisition Is Initialisation. Pomeni, da spremenljivka obstaja natanko takrat, ko obstajajo podatki, ki si jih lasti. Ko spremenljivka neha obstajati, se podatki avtomatično sprostijo.
+  \includecode{raii_intro.cpp}
+\end{frame}
+
+\begin{frame}{RAII kdaj ne dela?}
+  \includecode{raii_breaks.cpp}
+\end{frame}
+
+\begin{frame}{Še več težav z dinamičnim spominom}
+  \includecode{dyn_breaks.cpp}
+  Če imamo globje funkcije je to težavo zelo težko odkriti!\\
+  Več kot 70\% napak, ki jih odkrije Microsoft v Windows je zaradi teh dveh težav. Kako se izogniti temu?
+\end{frame}
+
+\begin{frame}{RAII dela če ga uporabljamo (v C++14)}
+  V C++11 so dodali pametne kazalce, ki sami skrbijo za brisanje in dodeljevanje spomina preko principa RAII. V C++14 so jih naredili dovolj uporabne, da \texttt{new} in \texttt{delete} v modernih programih ni več potrebno videti.
+  \includecode{smart_pointers.cpp}
+\end{frame}
+
+\begin{frame}{Naloga}
+  Z uporabo pametnih kazalcev implementiraj kazalčni seznam.
+
+  Dodaj nekaj funkcij za uporabo.
+  \begin{itemize}
+  \item Funkcijo ki sprejme \(n\) (ali \(n+1\) če je prvi element seznam) argumentov in prvih \(n\) mest inicializira s temi vrednostmi
+  \item Funkcijo za izpis seznama
+  \item Funkcijo za izbris nekega elementa iz seznama
+  \end{itemize}
 \end{frame}
 \end{document}
