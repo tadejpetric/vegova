@@ -5,3 +5,7 @@
 *.aux
 *.log
 *.pdf
+*.snm
+*.toc
+*.nav
+.#*
