@@ -1,0 +1,72 @@
+Raw strings
+namesto "asd\\asd" lahko R"x(asd\asd)x"
+
+Regex guide
+.       everything
+*       0 or more characters, greedy (kleene star)
++       1 or more character, greedy
+*?      0 or more characters, lazy
++?      1 or more characters, lazy
+char?   char or no char
+\d      generic digit
+\D      not digit
+\w      generic word character
+\W      not word
+\s      space
+\S      not space
+(ac|bd) ac or bd
+[a-z]   any character a to z
+[^a-z]  any character not a to z
+^...$   start ... end of line
+{n}     n times the last command
+{n,m}   from n to m times last command
+
+(regex)         capture group
+(?:regex)       non-capturing group
+
+
+
+Optional C++17
+<optional> header
+std::optional<type>
+    construct with {return} or {} for None
+
+Regex ++11
+<regex> header
+    <string> header for strings
+funkcije:
+    std::regex query( regex niz ); // construct the regex query
+    std::smatch match; // here will be captures
+    std::regex_search(text, match, query); // capture, saves into match
+    match.str(index); //get string from capture
+
+    std::sregex_iterator begin(text.begin(), text.end(), query); //can iterate over multiple matches
+    std::sregex_iterator end; // when no more captures
+    // to iterate
+    for (auto i = begin; i!= end; ++i) {
+        i->ptr;
+    }
+
+
+File input
+#include <sstream>
+std::ifstream t("file.txt");
+std::stringstream buffer;
+buffer << t.rdbuf();
+buffer.str(); // is a string
+
+
+
+Fold expressions C++17
+unary right (e op ...) -> (e1 op(... (en-1 op en)))
+unary left (... op e) -> (((e1 op e2) op ...) op en)
+
+binary right fold (e op ... op I) -> (e1 op (... op (en-1 op (en op I))))
+binary left fold (I op ... op e) -> ((((I op e1) op e2) op ...) op en)
+
+examples
+
+template <typename ...Args>
+int sum(Args&&... args) {
+    return (args + ... + 0)
+}
